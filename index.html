@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aurelia | Luxury Jewellery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --gold:#C8A24B; --gold-dark:#9B7B2E; --gold-light:#E0C97A;
+  --cream:#FAF8F3; --cream-2:#F2EEE3; --ink:#1C1A17; --ink-2:#3A372E;
+  --muted:#8A8275; --line:#E3DCCB; --white:#fff;
+  --success:#2D7A4E; --error:#B23A2E;
+  --shadow:0 4px 24px rgba(28,26,23,.08); --shadow-lg:0 12px 48px rgba(28,26,23,.14);
+  --radius:2px; --r:10px; --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6;font-weight:300;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.2}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.container{max-width:1320px;margin:0 auto;padding:0 24px}
+.section{padding:88px 0}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);font-weight:400;margin-bottom:16px}
+.section-title{font-size:clamp(2rem,4vw,3rem);margin-bottom:12px;text-align:center}
+.section-sub{text-align:center;color:var(--muted);font-size:1.05rem;max-width:560px;margin:0 auto 52px}
+.divider{width:56px;height:1px;background:var(--gold);margin:0 auto}
+
+/* --- Announcement bar --- */
+.announce{background:var(--ink);color:var(--cream);text-align:center;padding:9px;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase}
+
+/* --- Header --- */
+header{position:sticky;top:0;z-index:200;background:rgba(250,248,243,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+header.scrolled{box-shadow:var(--shadow)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1320px;margin:0 auto;gap:20px}
+.brand{font-family:var(--serif);font-size:1.7rem;font-weight:600;letter-spacing:.06em;color:var(--ink);white-space:nowrap}
+.brand span{color:var(--gold)}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400;position:relative;padding:4px 0;transition:color .25s}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold-dark)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:20px}
+.icon-btn{position:relative;font-size:1.25rem;color:var(--ink);transition:color .2s;padding:4px}
+.icon-btn:hover{color:var(--gold-dark)}
+.cart-count{position:absolute;top:-4px;right:-8px;background:var(--gold);color:#fff;font-size:.62rem;font-family:var(--sans);width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px}
+.hamburger span{width:24px;height:1.5px;background:var(--ink);transition:.3s}
+
+/* --- Hero --- */
+.hero{position:relative;height:88vh;min-height:560px;max-height:780px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.pexels.com/photos/28146843/pexels-photo-28146843.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover no-repeat;transform:scale(1.05);animation:slowZoom 18s ease-in-out infinite alternate}
+@keyframes slowZoom{from{transform:scale(1.05)}to{transform:scale(1.16)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,26,23,.62) 0%,rgba(28,26,23,.28) 60%,transparent 100%)}
+.hero-content{position:relative;z-index:2;color:var(--cream);max-width:600px;padding-left:8px}
+.hero-content .eyebrow{color:var(--gold-light)}
+.hero h1{font-size:clamp(2.6rem,6vw,4.8rem);font-weight:500;margin-bottom:20px;line-height:1.05}
+.hero p{font-size:1.15rem;font-weight:300;opacity:.9;margin-bottom:36px;max-width:440px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 36px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:400;transition:all .3s ease;border:1px solid transparent;cursor:pointer}
+.btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn-gold:hover{background:transparent;color:var(--gold-light);border-color:var(--gold-light)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-outline:hover{background:var(--ink);color:var(--cream)}
+.btn-light{background:transparent;color:var(--cream);border:1px solid rgba(250,248,243,.6)}
+.btn-light:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+
+/* --- Trust strip --- */
+.trust{background:var(--cream-2);padding:40px 0;border-bottom:1px solid var(--line)}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.trust-item svg{width:34px;height:34px;stroke:var(--gold-dark);margin-bottom:12px}
+.trust-item h4{font-size:1.1rem;margin-bottom:4px}
+.trust-item p{font-size:.82rem;color:var(--muted)}
+
+/* --- Categories --- */
+.cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.cat-card{position:relative;overflow:hidden;border-radius:var(--r);aspect-ratio:3/4;cursor:pointer}
+.cat-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.cat-card:hover img{transform:scale(1.08)}
+.cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(28,26,23,.75) 0%,transparent 55%);transition:opacity .3s}
+.cat-label{position:absolute;bottom:18px;left:0;right:0;text-align:center;z-index:2;color:#fff}
+.cat-label h3{font-size:1.35rem;margin-bottom:2px}
+.cat-label span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;opacity:.82}
+
+/* --- Products --- */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:36px}
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 22px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);background:var(--white);color:var(--ink-2);transition:all .25s;border-radius:40px}
+.chip:hover{border-color:var(--gold)}
+.chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.sort-select{padding:10px 18px;font-size:.8rem;border:1px solid var(--line);background:var(--white);color:var(--ink-2);font-family:var(--sans);outline:none;cursor:pointer}
+.sort-select:focus{border-color:var(--gold)}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.product-card{background:var(--white);border-radius:var(--r);overflow:hidden;transition:transform .35s,box-shadow .35s;border:1px solid var(--line)}
+.product-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.product-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--cream-2)}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.product-card:hover .product-img-wrap img{transform:scale(1.06)}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--cream);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;z-index:2}
+.product-badge.sale{background:var(--error)}
+.product-badge.new{background:var(--success)}
+.wishlist-btn{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;z-index:3;opacity:0;transform:translateY(-4px);transition:all .3s}
+.product-card:hover .wishlist-btn{opacity:1;transform:translateY(0)}
+.wishlist-btn:hover{background:#fff}
+.wishlist-btn svg{width:17px;height:17px;stroke:var(--ink);fill:none;stroke-width:1.8;transition:fill .2s}
+.wishlist-btn.active svg{fill:var(--error);stroke:var(--error)}
+.quick-add{position:absolute;bottom:0;left:0;right:0;background:rgba(28,26,23,.88);color:var(--cream);padding:11px;text-align:center;font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;transform:translateY(100%);transition:transform .35s ease;z-index:2}
+.product-card:hover .quick-add{transform:translateY(0)}
+.quick-add:hover{background:var(--gold)}
+.product-info{padding:16px 18px 20px}
+.product-cat{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:4px}
+.product-name{font-family:var(--serif);font-size:1.15rem;font-weight:500;margin-bottom:6px;line-height:1.3}
+.product-price{font-size:1rem;color:var(--ink-2)}
+.product-price .old{color:var(--muted);text-decoration:line-through;font-size:.85rem;margin-left:8px}
+.stars{display:flex;gap:1px;margin-top:6px}
+.stars svg{width:13px;height:13px;fill:var(--gold);stroke:none}
+.stars svg.empty{fill:var(--line)}
+.no-results{text-align:center;padding:60px;color:var(--muted);font-size:1.1rem}
+.load-more-wrap{text-align:center;margin-top:48px}
+
+/* --- Featured collection --- */
+.featured{background:var(--ink);color:var(--cream);padding:88px 0}
+.featured .section-title{color:var(--cream)}
+.featured .eyebrow{color:var(--gold-light)}
+.featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--r);overflow:hidden}
+.featured-text{padding:60px 50px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,#23211C,#1C1A17)}
+.featured-text h2{font-size:2.4rem;margin-bottom:18px}
+.featured-text p{opacity:.78;font-weight:300;margin-bottom:30px;font-size:1.05rem}
+.featured-text .btn-gold{align-self:flex-start}
+.featured-img{aspect-ratio:1;overflow:hidden}
+.featured-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.featured-img:hover img{transform:scale(1.05)}
+
+/* --- Testimonials --- */
+.testimonials{background:var(--cream-2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.testi-card{background:var(--white);padding:36px 30px;border-radius:var(--r);border:1px solid var(--line);position:relative}
+.testi-card .quote-mark{font-family:var(--serif);font-size:3.5rem;color:var(--gold);line-height:.5;position:absolute;top:28px;right:24px;opacity:.3}
+.testi-stars{display:flex;gap:2px;margin-bottom:14px}
+.testi-stars svg{width:15px;height:15px;fill:var(--gold)}
+.testi-text{font-size:1rem;color:var(--ink-2);font-style:italic;margin-bottom:22px;line-height:1.7}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-author .dot{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:1.1rem;font-weight:600}
+.testi-author .name{font-weight:500;font-size:.9rem}
+.testi-author .loc{font-size:.78rem;color:var(--muted)}
+
+/* --- Newsletter --- */
+.newsletter{text-align:center;padding:80px 0;background:var(--cream)}
+.newsletter h2{font-size:2.2rem;margin-bottom:10px}
+.newsletter p{color:var(--muted);margin-bottom:30px}
+.news-form{display:flex;max-width:480px;margin:0 auto;gap:0}
+.news-form input{flex:1;padding:14px 20px;border:1px solid var(--line);font-family:var(--sans);font-size:.9rem;outline:none;background:var(--white)}
+.news-form input:focus{border-color:var(--gold)}
+.news-form button{padding:14px 30px;background:var(--ink);color:var(--cream);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-weight:400;transition:background .25s;white-space:nowrap}
+.news-form button:hover{background:var(--gold)}
+
+/* --- Footer --- */
+footer{background:var(--ink);color:var(--cream);padding:64px 0 0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-brand{font-family:var(--serif);font-size:1.7rem;font-weight:600;letter-spacing:.05em;margin-bottom:16px}
+.footer-brand span{color:var(--gold)}
+.footer-grid p{font-size:.85rem;opacity:.7;max-width:280px;line-height:1.7}
+.footer-grid h4{font-family:var(--sans);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px;color:var(--gold-light);font-weight:400}
+.footer-grid ul{list-style:none}
+.footer-grid li{margin-bottom:10px}
+.footer-grid li a{font-size:.85rem;opacity:.7;transition:opacity .2s,color .2s}
+.footer-grid li a:hover{opacity:1;color:var(--gold-light)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:.78rem;opacity:.6;flex-wrap:wrap;gap:10px}
+.social{display:flex;gap:14px}
+.social a{opacity:.6;transition:opacity .2s}
+.social a:hover{opacity:1}
+.social svg{width:18px;height:18px;fill:var(--cream)}
+
+/* --- Cart drawer --- */
+.overlay{position:fixed;inset:0;background:rgba(28,26,23,.5);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s}
+.overlay.open{opacity:1;visibility:visible}
+.cart-drawer{position:fixed;top:0;right:0;width:420px;max-width:90vw;height:100vh;background:var(--cream);z-index:310;transform:translateX(100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--line)}
+.cart-header h3{font-size:1.4rem}
+.cart-close{font-size:1.5rem;color:var(--ink);transition:color .2s;line-height:1}
+.cart-close:hover{color:var(--gold-dark)}
+.cart-items{flex:1;overflow-y:auto;padding:16px 26px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.cart-empty svg{width:48px;height:48px;stroke:var(--line);fill:none;stroke-width:1;margin-bottom:16px}
+.cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.cart-item-img{width:72px;height:72px;border-radius:4px;object-fit:cover;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-info h4{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:2px}
+.cart-item-info .ci-cat{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:6px}
+.cart-item-info .ci-price{font-size:.9rem;color:var(--ink-2)}
+.cart-item-qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+.qty-btn{width:26px;height:26px;border:1px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:border-color .2s}
+.qty-btn:hover{border-color:var(--gold)}
+.ci-remove{font-size:.75rem;color:var(--muted);margin-left:auto;text-decoration:underline}
+.ci-remove:hover{color:var(--error)}
+.cart-footer{padding:20px 26px;border-top:1px solid var(--line);background:var(--white)}
+.cart-subtotal{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:4px}
+.cart-subtotal .total{font-family:var(--serif);font-size:1.3rem;font-weight:600}
+.cart-note{text-align:center;font-size:.75rem;color:var(--muted);margin-bottom:14px}
+.cart-footer .btn{width:100%;justify-content:center}
+
+/* --- Product modal --- */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,26,23,.6);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{background:var(--cream);max-width:860px;width:100%;max-height:88vh;overflow-y:auto;border-radius:var(--r);display:grid;grid-template-columns:1fr 1fr;transform:scale(.96);transition:transform .3s}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-img{overflow:hidden;background:var(--cream-2)}
+.modal-img img{width:100%;height:100%;object-fit:cover;min-height:320px}
+.modal-body{padding:36px 34px;position:relative}
+.modal-close{position:absolute;top:16px;right:18px;font-size:1.4rem;color:var(--muted);transition:color .2s;line-height:1}
+.modal-close:hover{color:var(--ink)}
+.modal-body .product-cat{font-size:.7rem}
+.modal-body h2{font-size:2rem;margin:6px 0 12px}
+.modal-body .modal-price{font-size:1.3rem;color:var(--ink-2);margin-bottom:14px}
+.modal-body .modal-price .old{color:var(--muted);text-decoration:line-through;font-size:1rem;margin-left:10px}
+.modal-body .modal-desc{color:var(--ink-2);font-size:.92rem;line-height:1.7;margin-bottom:20px}
+.modal-body .modal-meta{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.82rem}
+.modal-body .modal-meta .label{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.68rem}
+.qty-row{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.qty-row .qty-label{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase}
+.qty-row .qty-control{display:flex;align-items:center;border:1px solid var(--line)}
+.qty-row .qty-control button{width:38px;height:38px;font-size:1.1rem;color:var(--ink);background:var(--white);transition:background .2s}
+.qty-row .qty-control button:hover{background:var(--cream-2)}
+.qty-row .qty-control span{width:40px;text-align:center;font-size:.95rem}
+.modal-body .btn-gold{width:100%;justify-content:center;margin-bottom:12px}
+
+/* --- Toast --- */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:var(--cream);padding:14px 24px;border-radius:var(--r);font-size:.85rem;z-index:500;transform:translateY(100px);opacity:0;transition:all .35s;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast svg{width:18px;height:18px;stroke:var(--gold-light);fill:none;stroke-width:2}
+
+/* --- Scroll reveal --- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* --- Responsive --- */
+@media(max-width:1080px){
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .product-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:820px){
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;flex-direction:column;background:var(--cream);padding:30px;border-bottom:1px solid var(--line);gap:20px;z-index:150}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+  .featured-grid{grid-template-columns:1fr}
+  .featured-text{padding:40px 30px}
+  .modal{grid-template-columns:1fr}
+  .modal-img img{min-height:240px;max-height:300px}
+  .testi-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .trust-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .product-info{padding:12px 14px 16px}
+  .product-name{font-size:1rem}
+  .section{padding:60px 0}
+  .hero{height:80vh}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .news-form{flex-direction:column;gap:10px}
+  .news-form button{width:100%}
+  .toolbar{flex-direction:column;align-items:stretch}
+}
+@media(max-width:400px){
+  .product-grid{grid-template-columns:1fr}
+  .cat-grid{grid-template-columns:1fr}
+}
+</style>
+  <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+<body>
+
+<!-- Announcement bar -->
+<div class="announce">Free Shipping on Orders Over $200 · Complimentary Gift Wrapping</div>
+
+<!-- Header -->
+<header id="header">
+  <nav class="nav">
+    <a href="#" class="brand">Aurelia <span>&</span> Co.</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="closeMenu()">Home</a></li>
+      <li><a href="#categories" onclick="closeMenu()">Collections</a></li>
+      <li><a href="#shop" onclick="closeMenu()">Shop All</a></li>
+      <li><a href="#featured" onclick="closeMenu()">Signature</a></li>
+      <li><a href="#about" onclick="closeMenu()">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Search" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Wishlist" onclick="showToast('Your wishlist is coming soon')">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.5-9.5-9C1 8.5 3 5 6.5 5c2 0 3.5 1.5 5.5 3.5C14 6.5 15.5 5 17.5 5 21 5 23 8.5 21.5 12c-2 4.5-9.5 9-9.5 9z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart" onclick="toggleCart()">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <p class="eyebrow">Timeless Elegance Since 1924</p>
+    <h1>Jewellery That<br>Tells Your Story</h1>
+    <p>Handcrafted from the finest gold, diamonds, and gemstones — each piece is a celebration of artistry and grace.</p>
+    <a href="#shop" class="btn btn-light">Explore Collection</a>
+  </div>
+</section>
+
+<!-- Trust strip -->
+<section class="trust">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+        <h4>Lifetime Warranty</h4>
+        <p>Every piece guaranteed</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <h4>Free Shipping</h4>
+        <p>On orders over $200</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        <h4>Ethically Sourced</h4>
+        <p>Conflict-free gemstones</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg>
+        <h4>30-Day Returns</h4>
+        <p>Hassle-free policy</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section" id="categories">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center">Shop By Category</p>
+    <h2 class="section-title">Explore Our Collections</h2>
+    <div class="divider" style="margin-bottom:52px"></div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="section" id="shop" style="padding-top:0">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center">Curated Selection</p>
+    <h2 class="section-title">Our Jewellery Collection</h2>
+    <p class="section-sub">From everyday essentials to statement pieces, discover jewellery crafted to be treasured for generations.</p>
+    <div class="toolbar">
+      <div class="filter-chips" id="filterChips">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="necklaces">Necklaces</button>
+        <button class="chip" data-filter="rings">Rings</button>
+        <button class="chip" data-filter="earrings">Earrings</button>
+        <button class="chip" data-filter="bracelets">Bracelets</button>
+      </div>
+      <select class="sort-select" id="sortSelect">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="name">Name: A to Z</option>
+      </select>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="btn btn-outline" id="loadMore" onclick="loadMore()">Load More</button>
+    </div>
+  </div>
+</section>
+
+<!-- Featured collection -->
+<section class="featured" id="featured">
+  <div class="container">
+    <div class="featured-grid reveal">
+      <div class="featured-text">
+        <p class="eyebrow">Signature Collection</p>
+        <h2>The Eternal Radiance Set</h2>
+        <p>A breathtaking ensemble of diamond-studded necklace, earrings, and bracelet — designed for the moments that define a lifetime. Each piece is hand-set by master jewellers using ethically sourced diamonds.</p>
+        <a href="#shop" class="btn btn-gold">Discover the Set</a>
+      </div>
+      <div class="featured-img">
+        <img src="https://images.pexels.com/photos/19820885/pexels-photo-19820885.jpeg?auto=compress&cs=tinysrgb&w=940" alt="Eternal Radiance diamond jewellery set" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center">What Our Clients Say</p>
+    <h2 class="section-title">Loved by Thousands</h2>
+    <div class="divider" style="margin-bottom:52px"></div>
+    <div class="testi-grid" id="testiGrid"></div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" id="about">
+  <div class="container">
+    <p class="eyebrow">Join the Aurelia Family</p>
+    <h2>Subscribe &amp; Receive 10% Off</h2>
+    <p>Be the first to know about new arrivals, exclusive offers, and private sales events.</p>
+    <form class="news-form" onsubmit="handleSubscribe(event)">
+      <input type="email" placeholder="Enter your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Aurelia <span>&amp;</span> Co.</div>
+        <p>Crafting timeless jewellery since 1924. Each piece tells a story of artistry, passion, and enduring beauty — designed to be cherished for generations.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">Necklaces</a></li>
+          <li><a href="#shop">Rings</a></li>
+          <li><a href="#shop">Earrings</a></li>
+          <li><a href="#shop">Bracelets</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="return-policy.html">Return Policy</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="#about">Shipping Info</a></li>
+          <li><a href="#about">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#featured">Collections</a></li>
+          <li><a href="#about">Careers</a></li>
+          <li><a href="#about">Sustainability</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Aurelia &amp; Co. All rights reserved.</span>
+      <div class="social">
+        <a href="#" aria-label="Instagram" onclick="return false"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm6.4-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg></a>
+        <a href="#" aria-label="Facebook" onclick="return false"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="#" aria-label="Pinterest" onclick="return false"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.6 7.8 6.2 9.3-.1-.8-.2-2 0-2.9.2-.8 1.3-5.1 1.3-5.1s-.3-.6-.3-1.6c0-1.5.9-2.6 2-2.6.9 0 1.4.7 1.4 1.5 0 .9-.6 2.3-.9 3.6-.3 1.1.5 2 1.6 2 2 0 3.4-2.5 3.4-5.5 0-2.3-1.5-4-4.4-4-3.2 0-5.2 2.4-5.2 5.1 0 .9.3 1.6.7 2.1.2.2.2.3.1.5l-.3 1c-.1.3-.2.4-.5.2-1.5-.6-2.2-2.3-2.2-4.2 0-3.1 2.6-6.8 7.8-6.8 4.2 0 7 3 7 6.3 0 4.3-2.4 7.6-5.9 7.6-1.2 0-2.3-.6-2.7-1.3l-.7 2.8c-.3 1-.9 2.3-1.4 3.1.8.2 1.7.4 2.6.4 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart overlay + drawer -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</aside>
+
+<!-- Product modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastText"></span>
+</div>
+
+<script>
+/* ---------- Data ---------- */
+var categories = [
+  {name:'Necklaces', img:'https://images.pexels.com/photos/17833830/pexels-photo-17833830.jpeg?auto=compress&cs=tinysrgb&w=600', count:'12 Designs'},
+  {name:'Rings', img:'https://images.pexels.com/photos/2849742/pexels-photo-2849742.jpeg?auto=compress&cs=tinysrgb&w=600', count:'10 Designs'},
+  {name:'Earrings', img:'https://images.pexels.com/photos/3266700/pexels-photo-3266700.jpeg?auto=compress&cs=tinysrgb&w=600', count:'14 Designs'},
+  {name:'Bracelets', img:'https://images.pexels.com/photos/31459469/pexels-photo-31459469.jpeg?auto=compress&cs=tinysrgb&w=600', count:'9 Designs'},
+  {name:'Pearls', img:'https://images.pexels.com/photos/17555295/pexels-photo-17555295.jpeg?auto=compress&cs=tinysrgb&w=600', count:'5 Designs'},
+];
+
+var products = [
+  // Necklaces (12)
+  {id:1, name:'Aurora Gold Pendant', cat:'necklaces', price:289, old:340, img:'https://images.pexels.com/photos/4889719/pexels-photo-4889719.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:5, desc:'A delicate 18k gold-plated pendant that catches light with every movement. Perfect for layering or wearing solo.'},
+  {id:2, name:'Celestial Diamond Necklace', cat:'necklaces', price:520, img:'https://images.pexels.com/photos/20858950/pexels-photo-20858950.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A stunning diamond-encrusted necklace set in lustrous gold, inspired by the night sky.'},
+  {id:3, name:'Radiance Diamond Drop', cat:'necklaces', price:445, img:'https://images.pexels.com/photos/17833830/pexels-photo-17833830.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'An elegant gold necklace with a brilliant diamond pendant, crafted for the woman who shines.'},
+  {id:4, name:'Heritage Chunky Chain', cat:'necklaces', price:195, img:'https://images.pexels.com/photos/6964468/pexels-photo-6964468.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A bold, statement-making chunky gold chain that elevates any outfit with confidence.'},
+  {id:5, name:'Intricate Filigree Pendant', cat:'necklaces', price:365, img:'https://images.pexels.com/photos/12217206/pexels-photo-12217206.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'Masterfully crafted filigree pendant showcasing traditional artistry with a modern touch.'},
+  {id:6, name:'Elegance Layered Necklace', cat:'necklaces', price:249, old:299, img:'https://images.pexels.com/photos/6467618/pexels-photo-6467618.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:4, desc:'A versatile layered necklace that adds instant sophistication to both casual and formal looks.'},
+  {id:7, name:'Minimalist Pendant Set', cat:'necklaces', price:175, img:'https://images.pexels.com/photos/4735888/pexels-photo-4735888.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A set of minimalist gold pendants designed for the modern woman who values understated luxury.'},
+  {id:8, name:'Onyx Display Necklace', cat:'necklaces', price:399, img:'https://images.pexels.com/photos/28976815/pexels-photo-28976815.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A luxurious gold necklace with intricate detailing, displayed on an elegant black mannequin.'},
+  {id:9, name:'Serene Feather Pendant', cat:'necklaces', price:219, img:'https://images.pexels.com/photos/13292955/pexels-photo-13292955.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A graceful gold pendant against a soft backdrop, evoking serenity and timeless beauty.'},
+  {id:10, name:'Boutique Gold Necklace', cat:'necklaces', price:289, img:'https://images.pexels.com/photos/29013500/pexels-photo-29013500.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A luxurious gold necklace showcasing impeccable craftsmanship and boutique exclusivity.'},
+  {id:11, name:'Marble Stone Pendant', cat:'necklaces', price:155, old:195, img:'https://images.pexels.com/photos/12194343/pexels-photo-12194343.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:4, desc:'An elegantly displayed gold necklace on marble stones, blending luxury with natural beauty.'},
+  {id:12, name:'Classic Gold Strand', cat:'necklaces', price:229, img:'https://images.pexels.com/photos/10117804/pexels-photo-10117804.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A classic gold necklace that adds a touch of warmth and elegance to any ensemble.'},
+
+  // Rings (10)
+  {id:13, name:'Solitaire Engagement Ring', cat:'rings', price:890, img:'https://images.pexels.com/photos/2849742/pexels-photo-2849742.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A brilliant solitaire diamond engagement ring on a polished band — the ultimate symbol of love.'},
+  {id:14, name:'Midnight Diamond Ring', cat:'rings', price:675, img:'https://images.pexels.com/photos/2732096/pexels-photo-2732096.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A captivating diamond ring with a dark, dramatic setting that enhances the stone\'s brilliance.'},
+  {id:15, name:'Boxed Diamond Ring Set', cat:'rings', price:1200, old:1450, img:'https://images.pexels.com/photos/3871582/pexels-photo-3871582.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:5, desc:'An exquisite diamond ring presented in a luxurious box — the perfect gift for your beloved.'},
+  {id:16, name:'Eternity Band Duo', cat:'rings', price:550, img:'https://images.pexels.com/photos/12427696/pexels-photo-12427696.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'Luxurious engagement and wedding rings featuring impeccable craftsmanship and brilliant stones.'},
+  {id:17, name:'Teardrop Halo Ring', cat:'rings', price:720, img:'https://images.pexels.com/photos/2735981/pexels-photo-2735981.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A stunning teardrop diamond surrounded by a halo of smaller stones for maximum sparkle.'},
+  {id:18, name:'Tropical Wedding Band', cat:'rings', price:395, img:'https://images.pexels.com/photos/38622331/pexels-photo-38622331.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Beautifully crafted wedding bands resting on a tropical leaf — nature meets luxury.'},
+  {id:19, name:'Satin Blue Diamond Ring', cat:'rings', price:850, img:'https://images.pexels.com/photos/11504786/pexels-photo-11504786.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A dazzling diamond ring displayed on rich blue satin, exuding pure luxury and elegance.'},
+  {id:20, name:'Blue Surface Trio', cat:'rings', price:620, old:720, img:'https://images.pexels.com/photos/10976653/pexels-photo-10976653.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:4, desc:'A set of luxurious diamond rings on a textured blue surface, showcasing masterful craftsmanship.'},
+  {id:21, name:'Classic Diamond Band', cat:'rings', price:480, img:'https://images.pexels.com/photos/3091638/pexels-photo-3091638.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A timeless diamond wedding band in soft lighting, embodying luxury and enduring elegance.'},
+  {id:22, name:'Reflective Solitaire', cat:'rings', price:560, img:'https://images.pexels.com/photos/6993816/pexels-photo-6993816.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'An elegant diamond ring with intricate design on a reflective surface that amplifies its beauty.'},
+
+  // Earrings (14)
+  {id:23, name:'Royal Jhumka Earrings', cat:'earrings', price:189, img:'https://images.pexels.com/photos/37601639/pexels-photo-37601639.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'Ornate gold jhumka earrings that capture the essence of traditional beauty and craftsmanship.'},
+  {id:24, name:'Modern Hoop Earrings', cat:'earrings', price:125, img:'https://images.pexels.com/photos/16935587/pexels-photo-16935587.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Stylish gold hoop earrings with a contemporary wave design for the modern woman.'},
+  {id:25, name:'Sunlit Gold Drops', cat:'earrings', price:145, img:'https://images.pexels.com/photos/7615245/pexels-photo-7615245.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Elegant gold drop earrings that catch natural sunlight beautifully, perfect for everyday wear.'},
+  {id:26, name:'Black Surface Gold Earrings', cat:'earrings', price:210, img:'https://images.pexels.com/photos/3266700/pexels-photo-3266700.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'Luxurious gold earrings with reflective design on a glossy black surface, exuding elegance.'},
+  {id:27, name:'Ribbon Pearl Earrings', cat:'earrings', price:95, old:130, img:'https://images.pexels.com/photos/16055228/pexels-photo-16055228.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:4, desc:'Delicate gold earrings on white ribbon, perfect for fashion-forward jewellery presentations.'},
+  {id:28, name:'Ruby Gemstone Earrings', cat:'earrings', price:280, img:'https://images.pexels.com/photos/8031399/pexels-photo-8031399.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'Exquisite gold earrings with vibrant red gemstones on rich fabric, showcasing traditional design.'},
+  {id:29, name:'Velvet Box Gold Earrings', cat:'earrings', price:165, img:'https://images.pexels.com/photos/12811080/pexels-photo-12811080.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Intricate gold earrings presented in a red velvet box — the perfect luxurious gift.'},
+  {id:30, name:'Ruby Statement Earring', cat:'earrings', price:240, img:'https://images.pexels.com/photos/4974402/pexels-photo-4974402.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A detailed close-up of a ruby earring that showcases elegance and bold style.'},
+  {id:31, name:'Teardrop Gemstone Earrings', cat:'earrings', price:175, img:'https://images.pexels.com/photos/20074769/pexels-photo-20074769.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:4, desc:'Golden teardrop earrings with gemstone accents, perfect for adding a touch of glamour.'},
+  {id:32, name:'Textured Hoop Earrings', cat:'earrings', price:115, img:'https://images.pexels.com/photos/11477261/pexels-photo-11477261.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Elegant gold hoop earrings displayed on a textured woven surface for a bohemian-chic look.'},
+  {id:33, name:'Diamond Stud Earrings', cat:'earrings', price:320, img:'https://images.pexels.com/photos/16055232/pexels-photo-16055232.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'Dazzling gold earrings with diamond accents on a white ribbon background — pure sophistication.'},
+  {id:34, name:'Soft Glow Gold Earring', cat:'earrings', price:135, old:165, img:'https://images.pexels.com/photos/9132562/pexels-photo-9132562.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:4, desc:'A stylish gold earring that glows softly against the skin, perfect for everyday elegance.'},
+  {id:35, name:'Mirror Hoop Earrings', cat:'earrings', price:149, img:'https://images.pexels.com/photos/38909373/pexels-photo-38909373.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Stylish gold hoop earrings reflecting on a mirror surface, showcasing luxury and modern design.'},
+  {id:36, name:'Silk Leaf Gold Earrings', cat:'earrings', price:160, img:'https://images.pexels.com/photos/37057480/pexels-photo-37057480.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'Stylish gold earrings on white silk with green leaves, blending luxury with nature\'s beauty.'},
+
+  // Bracelets (9)
+  {id:37, name:'Marble Charm Bracelet', cat:'bracelets', price:185, img:'https://images.pexels.com/photos/6862459/pexels-photo-6862459.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'An elegant bracelet with charm details on a marble bedside setting, exuding everyday luxury.'},
+  {id:38, name:'Silver Diamond Bracelet', cat:'bracelets', price:420, img:'https://images.pexels.com/photos/31459469/pexels-photo-31459469.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A silver bracelet with diamond accents on a sleek black background — modern luxury at its finest.'},
+  {id:39, name:'Leafy Charm Bracelet', cat:'bracelets', price:195, img:'https://images.pexels.com/photos/38827930/pexels-photo-38827930.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A stylish silver bracelet with charm details on a reflective surface against a leafy backdrop.'},
+  {id:40, name:'Intricate Silver Cuff', cat:'bracelets', price:250, old:310, img:'https://images.pexels.com/photos/16304537/pexels-photo-16304537.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:5, desc:'A stylish silver bracelet showcasing intricate design, worn elegantly on the wrist.'},
+  {id:41, name:'Minimalist Silver Bangle', cat:'bracelets', price:145, img:'https://images.pexels.com/photos/9144540/pexels-photo-9144540.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'A silver jewellery piece with a textured finish on a minimalist display — perfect for daily wear.'},
+  {id:42, name:'Sparkling Diamond Bracelet', cat:'bracelets', price:580, img:'https://images.pexels.com/photos/29245546/pexels-photo-29245546.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'A sparkling diamond bracelet showcased with creative lighting for an artistic, luxurious effect.'},
+  {id:43, name:'Vintage Camera Bracelet', cat:'bracelets', price:175, img:'https://images.pexels.com/photos/16304548/pexels-photo-16304548.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'An elegant silver bracelet laid on a vintage camera, highlighting intricate design and retro charm.'},
+  {id:44, name:'Trio Silver Bracelets', cat:'bracelets', price:220, img:'https://images.pexels.com/photos/12197265/pexels-photo-12197265.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A minimalist set of three elegant silver bracelets on a light blue background — stackable perfection.'},
+  {id:45, name:'Floral Diamond Bracelet', cat:'bracelets', price:465, old:520, img:'https://images.pexels.com/photos/31757022/pexels-photo-31757022.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'sale', rating:5, desc:'An elegant diamond bracelet on black fabric surrounded by delicate dried flowers — romantic luxury.'},
+
+  // Pearl collection (5) — categorized under necklaces but with pearl filter
+  {id:46, name:'Pearl & Gold Combo', cat:'necklaces', price:340, img:'https://images.pexels.com/photos/8776984/pexels-photo-8776984.jpeg?auto=compress&cs=tinysrgb&w=600', badge:'new', rating:5, desc:'An elegant pearl necklace with gold earrings, beautifully highlighted by warm sunlight.'},
+  {id:47, name:'Coral Pearl Strand', cat:'necklaces', price:295, img:'https://images.pexels.com/photos/9428788/pexels-photo-9428788.jpeg?auto=compress&cs=tinysrgb&w=600', rating:4, desc:'Sophisticated pearl necklaces elegantly draped on coral, signifying luxury and nature\'s beauty.'},
+  {id:48, name:'Golden Clasp Pearls', cat:'necklaces', price:380, img:'https://images.pexels.com/photos/17555295/pexels-photo-17555295.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A luxurious pearl necklace with a golden clasp on a display bust — timeless and refined.'},
+  {id:49, name:'Diamond Pearl Pendant', cat:'necklaces', price:425, img:'https://images.pexels.com/photos/37467312/pexels-photo-37467312.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'An elegant pearl necklace featuring a diamond-studded pendant — the pinnacle of high-end fashion.'},
+  {id:50, name:'Gold Pearl Necklace', cat:'necklaces', price:310, img:'https://images.pexels.com/photos/27535672/pexels-photo-27535672.jpeg?auto=compress&cs=tinysrgb&w=600', rating:5, desc:'A luxurious gold and pearl necklace delicately draped on a white block, blending warmth with purity.'},
+];
+
+var testimonials = [
+  {name:'Sarah M.', loc:'New York, NY', stars:5, text:'Absolutely stunning quality! The diamond necklace I purchased exceeded all my expectations. The craftsmanship is impeccable and the packaging was beautiful.'},
+  {name:'Emily R.', loc:'London, UK', stars:5, text:'I\'ve been a loyal customer for 3 years now. Aurelia never disappoints — their rings are timeless and the customer service is outstanding.'},
+  {name:'Jessica L.', loc:'Toronto, CA', stars:4, text:'The earrings I bought for my wedding were perfect. Elegant, comfortable, and they caught every bit of light. Thank you for making my day special.'},
+];
+
+/* ---------- State ---------- */
+var cart = [];
+var visibleCount = 8;
+var currentFilter = 'all';
+var currentSort = 'featured';
+
+/* ---------- Render: categories ---------- */
+function renderCategories() {
+  var grid = document.getElementById('catGrid');
+  grid.innerHTML = categories.map(function(c) {
+    return '<div class="cat-card reveal" onclick="filterByCategory(\'' + c.name.toLowerCase() + '\')">' +
+      '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy" />' +
+      '<div class="cat-label"><h3>' + c.name + '</h3><span>' + c.count + '</span></div>' +
+    '</div>';
+  }).join('');
+  observeReveals();
+}
+
+function filterByCategory(name) {
+  var map = {'necklaces':'necklaces','rings':'rings','earrings':'earrings','bracelets':'bracelets','pearls':'necklaces'};
+  var filter = map[name] || 'all';
+  var chips = document.querySelectorAll('.chip');
+  chips.forEach(function(ch) {
+    ch.classList.toggle('active', ch.getAttribute('data-filter') === filter);
+  });
+  currentFilter = filter;
+  visibleCount = 8;
+  renderProducts();
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---------- Render: products ---------- */
+function getFilteredProducts() {
+  var list = products.filter(function(p) {
+    return currentFilter === 'all' || p.cat === currentFilter;
+  });
+  if (currentSort === 'price-low') list.sort(function(a,b) { return a.price - b.price; });
+  else if (currentSort === 'price-high') list.sort(function(a,b) { return b.price - a.price; });
+  else if (currentSort === 'name') list.sort(function(a,b) { return a.name.localeCompare(b.name); });
+  return list;
+}
+
+function renderProducts() {
+  var list = getFilteredProducts();
+  var grid = document.getElementById('productGrid');
+  var toShow = list.slice(0, visibleCount);
+
+  if (toShow.length === 0) {
+    grid.innerHTML = '<div class="no-results">No products found in this category.</div>';
+    document.getElementById('loadMoreWrap').style.display = 'none';
+    return;
+  }
+
+  grid.innerHTML = toShow.map(function(p) {
+    var stars = '';
+    for (var i = 0; i < 5; i++) {
+      stars += '<svg class="' + (i < p.rating ? '' : 'empty') + '" viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8l-6.2 3.2L7 14.2l-5-4.9 6.9-1z"/></svg>';
+    }
+    var badge = p.badge === 'sale' ? '<span class="product-badge sale">Sale</span>' :
+               p.badge === 'new' ? '<span class="product-badge new">New</span>' : '';
+    var oldPrice = p.old ? '<span class="old">$' + p.old + '</span>' : '';
+    return '<div class="product-card" onclick="openModal(' + p.id + ')">' +
+      '<div class="product-img-wrap">' + badge +
+        '<button class="wishlist-btn" onclick="event.stopPropagation();toggleWishlist(this)" aria-label="Add to wishlist">' +
+          '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.5-9.5-9C1 8.5 3 5 6.5 5c2 0 3.5 1.5 5.5 3.5C14 6.5 15.5 5 17.5 5 21 5 23 8.5 21.5 12c-2 4.5-9.5 9-9.5 9z"/></svg>' +
+        '</button>' +
+        '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy" />' +
+        '<div class="quick-add" onclick="event.stopPropagation();addToCart(' + p.id + ')">Quick Add +</div>' +
+      '</div>' +
+      '<div class="product-info">' +
+        '<p class="product-cat">' + p.cat + '</p>' +
+        '<h3 class="product-name">' + p.name + '</h3>' +
+        '<p class="product-price">$' + p.price + oldPrice + '</p>' +
+        '<div class="stars">' + stars + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('loadMoreWrap').style.display = visibleCount >= list.length ? 'none' : 'block';
+}
+
+function loadMore() {
+  visibleCount += 8;
+  renderProducts();
+}
+
+/* ---------- Render: testimonials ---------- */
+function renderTestimonials() {
+  var grid = document.getElementById('testiGrid');
+  grid.innerHTML = testimonials.map(function(t) {
+    var stars = '';
+    for (var i = 0; i < t.stars; i++) stars += '<svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8l-6.2 3.2L7 14.2l-5-4.9 6.9-1z"/></svg>';
+    var initials = t.name.charAt(0);
+    return '<div class="testi-card reveal">' +
+      '<div class="quote-mark">&ldquo;</div>' +
+      '<div class="testi-stars">' + stars + '</div>' +
+      '<p class="testi-text">' + t.text + '</p>' +
+      '<div class="testi-author">' +
+        '<div class="dot">' + initials + '</div>' +
+        '<div><div class="name">' + t.name + '</div><div class="loc">' + t.loc + '</div></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  observeReveals();
+}
+
+/* ---------- Cart ---------- */
+function addToCart(id) {
+  var product = products.find(function(p) { return p.id === id; });
+  var existing = cart.find(function(item) { return item.id === id; });
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({id: product.id, name: product.name, cat: product.cat, price: product.price, img: product.img, qty: 1});
+  }
+  updateCart();
+  showToast(product.name + ' added to cart');
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(function(item) { return item.id !== id; });
+  updateCart();
+}
+
+function changeQty(id, delta) {
+  var item = cart.find(function(i) { return i.id === id; });
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCart();
+}
+
+function updateCart() {
+  var count = cart.reduce(function(s, i) { return s + i.qty; }, 0);
+  document.getElementById('cartCount').textContent = count;
+
+  var itemsEl = document.getElementById('cartItems');
+  var footerEl = document.getElementById('cartFooter');
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = '<div class="cart-empty">' +
+      '<svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>' +
+      '<p>Your cart is empty</p><p style="font-size:.85rem;margin-top:6px">Start shopping to add beautiful pieces.</p></div>';
+    footerEl.innerHTML = '';
+    return;
+  }
+
+  itemsEl.innerHTML = cart.map(function(item) {
+    return '<div class="cart-item">' +
+      '<img src="' + item.img + '" alt="' + item.name + '" class="cart-item-img" />' +
+      '<div class="cart-item-info">' +
+        '<h4>' + item.name + '</h4>' +
+        '<p class="ci-cat">' + item.cat + '</p>' +
+        '<p class="ci-price">$' + item.price.toFixed(2) + '</p>' +
+        '<div class="cart-item-qty">' +
+          '<button class="qty-btn" onclick="changeQty(' + item.id + ',-1)">&minus;</button>' +
+          '<span>' + item.qty + '</span>' +
+          '<button class="qty-btn" onclick="changeQty(' + item.id + ',1)">+</button>' +
+          '<button class="ci-remove" onclick="removeFromCart(' + item.id + ')">Remove</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  var subtotal = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+  footerEl.innerHTML =
+    '<div class="cart-subtotal"><span>Subtotal</span><span class="total">$' + subtotal.toFixed(2) + '</span></div>' +
+    '<p class="cart-note">Shipping &amp; taxes calculated at checkout</p>' +
+    '<button class="btn btn-gold" onclick="checkout()">Proceed to Checkout</button>';
+}
+
+function toggleCart() {
+  var drawer = document.getElementById('cartDrawer');
+  var overlay = document.getElementById('overlay');
+  drawer.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+function checkout() {
+  if (cart.length === 0) return;
+  var total = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+  showToast('Order placed! Total: $' + total.toFixed(2) + ' — This is a demo store.');
+  cart = [];
+  updateCart();
+  setTimeout(function() { toggleCart(); }, 1500);
+}
+
+/* ---------- Product modal ---------- */
+function openModal(id) {
+  var p = products.find(function(item) { return item.id === id; });
+  if (!p) return;
+  var stars = '';
+  for (var i = 0; i < 5; i++) {
+    stars += '<svg class="' + (i < p.rating ? '' : 'empty') + '" viewBox="0 0 24 24" style="width:15px;height:15px;fill:var(--gold)"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8l-6.2 3.2L7 14.2l-5-4.9 6.9-1z"/></svg>';
+  }
+  var oldPrice = p.old ? '<span class="old">$' + p.old + '</span>' : '';
+  var badge = p.badge === 'sale' ? 'Sale' : p.badge === 'new' ? 'New Arrival' : 'Featured';
+
+  document.getElementById('modal').innerHTML =
+    '<div class="modal-img"><img src="' + p.img + '" alt="' + p.name + '" /></div>' +
+    '<div class="modal-body">' +
+      '<button class="modal-close" onclick="closeModalBtn()">&times;</button>' +
+      '<p class="product-cat">' + p.cat + ' &middot; ' + badge + '</p>' +
+      '<h2>' + p.name + '</h2>' +
+      '<div class="stars" style="margin-bottom:10px">' + stars + '</div>' +
+      '<p class="modal-price">$' + p.price + oldPrice + '</p>' +
+      '<p class="modal-desc">' + p.desc + '</p>' +
+      '<div class="modal-meta">' +
+        '<div><div class="label">Material</div><div>18k Gold Plated</div></div>' +
+        '<div><div class="label">Stone</div><div>' + (p.cat === 'rings' ? 'Diamond' : 'Premium Gem') + '</div></div>' +
+        '<div><div class="label">Warranty</div><div>Lifetime</div></div>' +
+        '<div><div class="label">Shipping</div><div>Free over $200</div></div>' +
+      '</div>' +
+      '<div class="qty-row">' +
+        '<span class="qty-label">Quantity</span>' +
+        '<div class="qty-control">' +
+          '<button onclick="modalQty(-1)">&minus;</button>' +
+          '<span id="modalQty">1</span>' +
+          '<button onclick="modalQty(1)">+</button>' +
+        '</div>' +
+      '</div>' +
+      '<button class="btn btn-gold" onclick="modalAddToCart(' + p.id + ')">Add to Cart</button>' +
+      '<button class="btn btn-outline" style="width:100%;justify-content:center" onclick="closeModalBtn()">Continue Shopping</button>' +
+    '</div>';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function modalQty(delta) {
+  var el = document.getElementById('modalQty');
+  var v = Math.max(1, parseInt(el.textContent) + delta);
+  el.textContent = v;
+}
+
+function modalAddToCart(id) {
+  var qty = parseInt(document.getElementById('modalQty').textContent);
+  var product = products.find(function(p) { return p.id === id; });
+  var existing = cart.find(function(item) { return item.id === id; });
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({id: product.id, name: product.name, cat: product.cat, price: product.price, img: product.img, qty: qty});
+  }
+  updateCart();
+  closeModalBtn();
+  showToast(product.name + ' added to cart');
+}
+
+function closeModal(e) {
+  if (e.target === e.currentTarget) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ---------- Wishlist ---------- */
+function toggleWishlist(btn) {
+  btn.classList.toggle('active');
+  showToast(btn.classList.contains('active') ? 'Added to wishlist' : 'Removed from wishlist');
+}
+
+/* ---------- Toast ---------- */
+var toastTimer;
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  document.getElementById('toastText').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+/* ---------- Newsletter ---------- */
+function handleSubscribe(e) {
+  e.preventDefault();
+  e.target.reset();
+  showToast('Thank you for subscribing! Check your email for 10% off.');
+}
+
+/* ---------- Menu ---------- */
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+/* ---------- Scroll reveal ---------- */
+var revealObserver;
+function observeReveals() {
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+  }
+  document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', function() {
+  renderCategories();
+  renderProducts();
+  renderTestimonials();
+  updateCart();
+
+  // Filter chips
+  document.querySelectorAll('.chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      currentFilter = chip.getAttribute('data-filter');
+      visibleCount = 8;
+      renderProducts();
+    });
+  });
+
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', function(e) {
+    currentSort = e.target.value;
+    renderProducts();
+  });
+
+  // Header shadow on scroll
+  window.addEventListener('scroll', function() {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Observe all initial reveals
+  observeReveals();
+});
+</script>
+</body>
+</html>
